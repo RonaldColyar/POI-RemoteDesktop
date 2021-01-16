@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);
     this->setPalette(palette);
+    setWindowTitle("Persons Of Interest");
+
     
 }
 
