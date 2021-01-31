@@ -14,6 +14,7 @@ public:
     WSAData data;
     sockaddr_in hint;
     WORD version = MAKEWORD(2,2);
+    std::string access_code;
     int startup_result = WSAStartup(version,&data);
 
 
@@ -26,9 +27,12 @@ public:
 
     bool connect_to_server(){
 
-       if(sock == INVALID_SOCKET || startup_result !=0){
+       if(sock == INVALID_SOCKET || startup_result !=0 ){
+           closesocket(sock);
+           WSACleanup();
            return false;
        }
+
        else{
           int  connection_result = connect(sock,(sockaddr*)&hint,sizeof(hint));
           if(connection_result == SOCKET_ERROR){
@@ -39,17 +43,36 @@ public:
           }
        }
     };
+    //Result from 'send_code'
+    //store server auth token locally
     void check_result(std::string result){
         if(result == "success"){
+            int token_bytes = recv();
+            //write token to local file
 
         }
         else{
-
+            //update gui with error
         }
     }
     std::string send_code(){
-        std::string result = "success";
+        std::string result;
+        int send_message_result = send();
+        if(send_message_result == SOCKET_ERROR){
+            result = "error";
+        }
+        else{
+            int data_size = recv();
+            int actual_data  = recv();
+            if (actual_data > 0 ){
+                result = std::string(); //convert actual data to
+            }
+
+
+
+        }
         return result;
+
     };
 
 
