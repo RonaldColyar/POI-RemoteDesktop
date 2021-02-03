@@ -10,6 +10,18 @@ Socket Handler handles the creation
 of a socket
 
 */
+
+
+class PersonData{
+
+public:
+    std::string first;
+    std::string last;
+    std::string location;
+    std::string height;
+    std::string race;
+
+};
 class SocketHandler {
 
   private:
