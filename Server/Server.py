@@ -10,6 +10,38 @@ with protection benefits
 *(implement ssl for actual remote use)
 
 """
+
+class EmailHandler:
+    def __init__(self,collection):
+        self.collection = collection
+    def create_temp_email_data(self):
+        cursor =  self.collection.find()
+        with open("temp.txt" , "w") as file:
+            for profile in cursor:
+                file.write(str(profile))
+                file.write("\n")
+
+    def temp_data(self):
+        with open("temp.txt" , "rb") as file:
+            return file.read()
+
+
+    def send_email(self,data,client):
+        self.create_temp_email_data() #getting all the profiles
+        msg = EmailMessage()
+        msg["Subject"] = 'POI Data'
+        msg["From"] = data["sender"]
+        msg["To"] = data["receiver"]
+        msg.add_attachment(self.temp_data(),maintype = 'text'  , subtype = "plain", filename = "data.txt")
+        with smtplib.SMTP_SSL('smtp.gmail.com' ,465) as smtp:
+            try:
+                smtp.login(data["sender"],self.temp_email_password)
+                smtp.send_message(msg)
+                client.send("EMAIL_SENT".encode("ascii"))              
+            except Exception as e :
+                print(e)
+                client.send("ISSUE".encode("ascii"))
+
 class MongoManager:
 	def __init__():
 		self.client = pymongo.MongoClient("mongodb://localhost:27017/")
