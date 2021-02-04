@@ -64,8 +64,21 @@ class EmailHandler:
     """
 
 class InterfaceUpdater :
-    def ():
-        pass
+    
+        def display_connections():
+            pass
+        def display_tokens():
+            pass
+        def display_failed_connection():
+            pass
+        def display_person_modification():
+            pass
+        def display_entry_creation():
+            pass
+        def display_breach():
+            pass
+        def display_emailed():
+            pass
 
 """   
 'MongoHandler'
@@ -310,7 +323,7 @@ class SessionManager:
         self.threads.append(obj)
 		print(addr +"has been authenticated..number of Users:"+
 					str(len(addrs)))
-        
+
 	def remove_session(addr,token) :
 		try:
             self.addrs.remove(addr)
