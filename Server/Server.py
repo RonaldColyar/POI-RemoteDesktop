@@ -57,6 +57,25 @@ class EmailHandler:
                 print(e)
                 client.send("ISSUE".encode("ascii"))
 
+class SpamMonitor:
+    def __init__():
+        self.failed_connection_attempts = {}
+    def add_failed_connection():
+        pass
+    def is_spammer(self ,addr):
+        if addr in self.failed_connection_attempts :
+            if self.failed_connection_attempts[addr] == 4 :
+                return True
+            else:
+                return False
+        else:
+            return False
+    
+    def add_addr_attemp(self,addr):
+        if addr in self.failed_connection_attempts:
+            self.failed_connection_attempts[addr] +=1
+        else:
+            self.failed_connection_attempts[addr] = 1
 
 
 """InterfaceUpdater Handles the printing
@@ -64,19 +83,32 @@ class EmailHandler:
     """
 
 class InterfaceUpdater :
-    
-        def display_connections():
-            pass
-        def display_tokens():
-            pass
-        def display_failed_connection():
-            pass
+        def __init__(self):
+            self.log_counter = 0
+
+
+        def display_connections(addrs):
+            print("....Log("+self.log_counter+")....")
+            print(f"Current Connections({str(len(addrs))}):")
+            for addr in addrs:
+                print("--"+addr)
+            print("....End of Log....")
+            print(" ")
+        def display_failed_connection(addr):
+            print("....Log("+self.log_counter+")....")
+            print(f"{addr} tried to connect! But Failed!")
+            print("....End of Log....")
+            print(" ")
+
         def display_person_modification():
             pass
         def display_entry_creation():
             pass
-        def display_breach():
-            pass
+        def display_breach(addr):
+            print("....Log("+self.log_counter+")....")
+            print(f"Admin at ({addr}) Breached the system!!")
+            print("....End of Log....")
+            print(" ")
         def display_emailed():
             pass
 
@@ -384,6 +416,7 @@ class Server:
         self.mongo_handler = MongoHandler()
         self.session_manager = SessionManager()
         self.router = Router(mongo_handler) #dependency
+        self.spam_monitor = SpamMonitor()
 
 
     def start_server(self):
