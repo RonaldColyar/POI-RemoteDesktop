@@ -3,25 +3,50 @@
 #include <iostream>
 #include <winsock2.h>
 #include <ws2tcpip.h>
-
-/*
-
-Socket Handler handles the creation
-of a socket
-
-*/
+#include <json/json.h>
+#include <vector>
 
 
-class PersonData{
 
-public:
+
+
+class PersonData{ //creation/update
     std::string first;
     std::string last;
     std::string location;
     std::string height;
     std::string race;
+    std::vector<std::vector<std::string>> entries;
+
+public:
+   PersonData(std::string first_param ,
+              std::string last_param,
+              std::string location_param,
+              std::string height_param,
+              std::string race_param,
+              std::vector<std::vector<std::string>> entry_data)
+
+   {
+     first = first_param;
+     last = last_param;
+     location = location_param;
+     height = height_param;
+     race = race_param;
+     entries = entry_data;
+   }
+   //for person modification/creation
+   std::string json_obj (){
+
+
+
+
+   }
+
+
 
 };
+
+
 class SocketHandler {
 
   private:
@@ -113,7 +138,7 @@ class AuthManager{
             return result;
 
         };
-    public:
+  public:
         AuthManager(SocketHandler handler){
             SocketHandler socket_handler  = handler;
         };
@@ -125,6 +150,62 @@ class AuthManager{
 
 
 };
+
+class InterfaceUpdater{
+
+
+
+
+};
+
+class ResponseManger{
+
+
+ public:
+    ResponseManger(){
+        InterfaceUpdater interface_updater;
+    }
+    void check_person_creation(std::string response,DataForUserCreation data){
+        if(response == "ACCEPTED_CREATION"){
+            //add to persosn to list
+        }
+        else{
+            //issue
+        }
+    }
+    void check_person_deletion (std::string response , std::string first,std::string last){
+        if(response == "DELETION_ACCEPTED"){
+            //remove person from list
+        }
+        else{
+            //issue
+        }
+    }
+    void check_contact_creation(std::string response , std::string email){
+        if(response == "EMAIL_RECIPIENT_ADDED"){
+            //add contact to list
+        }
+        else{
+             //issue
+        }
+    }
+    void check_contact_deletion (std::string response , std::string email){
+
+        if(response == "EMAIL_RECIPIENT_REMOVED"){
+
+
+        }
+        else{
+
+        }
+    }
+    void check_entry_creation(std::string response , std::string first , std::string last){
+
+    }
+
+
+
+};
 class RequestManager{
 
 public:
@@ -132,6 +213,7 @@ public:
     RequestManager(){
         SocketHandler socket_handler;
         AuthManager auth_manager = AuthManager(socket_handler);
+        ResponseManger response_manager;
     }
     void create_person(){
 
