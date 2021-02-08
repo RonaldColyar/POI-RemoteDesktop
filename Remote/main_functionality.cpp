@@ -105,20 +105,17 @@ class AuthManager{
         };
 
 
+
+
+
+  public:
+        SocketHandler socket_handler;
+        AuthManager(SocketHandler handler){
+              socket_handler = handler;
+        };
+
         //Result from 'send_code'
         //store server auth token locally
-        void check_result(std::string result){
-            if(result == "success"){
-                int token_bytes = recv();
-                //write token to local file
-
-            }
-            else{
-                //update gui with error
-            }
-        }
-
-
         std::string send_code(std::string){
             std::string result;
             int send_message_result = send();
@@ -138,15 +135,6 @@ class AuthManager{
             return result;
 
         };
-  public:
-        AuthManager(SocketHandler handler){
-            SocketHandler socket_handler  = handler;
-        };
-        void send_and_check(std::string code){
-            check_result(send_code(code));
-        }
-
-
 
 
 };
@@ -162,9 +150,8 @@ class ResponseManger{
 
 
  public:
-    ResponseManger(){
-        InterfaceUpdater interface_updater;
-    }
+    InterfaceUpdater interface_updater;
+
     void check_person_creation(std::string response,DataForUserCreation data){
         if(response == "ACCEPTED_CREATION"){
             //add to persosn to list
@@ -209,12 +196,10 @@ class ResponseManger{
 class RequestManager{
 
 public:
+    SocketHandler socket_handler;
+    AuthManager auth_manager = AuthManager(socket_handler);
+    ResponseManger response_manager;
 
-    RequestManager(){
-        SocketHandler socket_handler;
-        AuthManager auth_manager = AuthManager(socket_handler);
-        ResponseManger response_manager;
-    }
     void create_person(){
 
     }

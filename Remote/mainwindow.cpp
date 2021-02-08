@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setStyleSheet("background-color: black;");
     setWindowTitle("??????");
 
-    RequestManager request_manager;
+
 
 
 

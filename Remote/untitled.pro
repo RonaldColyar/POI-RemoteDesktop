@@ -9,16 +9,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    confirmbreachpopup.cpp \
     main.cpp \
     main_functionality.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    newentrypopup.cpp \
+    newpersonpopup.cpp
 
 HEADERS += \
-    mainwindow.h
+    confirmbreachpopup.h \
+    mainwindow.h \
+    newentrypopup.h \
+    newpersonpopup.h
 
 FORMS += \
-    Authed.ui \
-    mainwindow.ui
+    confirmbreachpopup.ui \
+    mainwindow.ui \
+    newentrypopup.ui \
+    newpersonpopup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
