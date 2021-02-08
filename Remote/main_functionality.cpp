@@ -5,21 +5,16 @@
 #include <ws2tcpip.h>
 #include <json/json.h>
 #include <vector>
+#include "main_functionality.h"
 
 
 
 
 
-class PersonData{ //creation/update
-    std::string first;
-    std::string last;
-    std::string location;
-    std::string height;
-    std::string race;
-    std::vector<std::vector<std::string>> entries;
 
-public:
-   PersonData(std::string first_param ,
+
+
+   PersonData::PersonData(std::string first_param ,
               std::string last_param,
               std::string location_param,
               std::string height_param,
@@ -35,7 +30,7 @@ public:
      entries = entry_data;
    }
    //for person modification/creation
-   std::string json_obj (){
+   std::string PersonData::json_obj (){
 
 
 
@@ -44,32 +39,28 @@ public:
 
 
 
-};
 
 
-class SocketHandler {
+   SocketHandler::SocketHandler(){
+            ip = "127.0.0.1" ;//local host
+            port = 54000;
+            sock = socket(AF_INET,SOCK_STREAM,0);
+            version = MAKEWORD(2,2);
+            startup_result = WSAStartup(version,&data);
+   }
 
-  private:
-        std::string ip = "127.0.0.1" ;//local host
-        int port = 54000;
-        SOCKET sock = socket(AF_INET,SOCK_STREAM,0);
-        WSAData data;
-        sockaddr_in hint;
-        WORD version = MAKEWORD(2,2);
-        std::string access_code;
-        int startup_result = WSAStartup(version,&data);
 
-        void configure_hint(){
+
+        void SocketHandler::configure_hint(){
             hint.sin_family = AF_INET;
             hint.sin_port = port;
+        }
 
-        };
-  public:
 
-        bool connect_to_server(){
-           configure_hint();
-           if(sock == INVALID_SOCKET || startup_result !=0 ){
-               closesocket(sock);
+        bool SocketHandler::connect_to_server(){
+           SocketHandler::configure_hint();
+           if(SocketHandler::sock == INVALID_SOCKET || SocketHandler::startup_result !=0 ){
+               closesocket(SocketHandler::sock);
                WSACleanup();
                return false;
            }
@@ -86,21 +77,18 @@ class SocketHandler {
         };
 
         //terminates session and  removes session
-        bool close_server_connection(){
+        bool SocketHandler::close_server_connection(){
             //send close request
             //recv status result
             //close socket connection
             return true;
         }
 
-};
 
 
 
-class AuthManager{
-  private:
 
-        void create_token_file(){
+        void AuthManager::create_token_file(){
 
         };
 
@@ -108,15 +96,15 @@ class AuthManager{
 
 
 
-  public:
-        SocketHandler socket_handler;
-        AuthManager(SocketHandler handler){
+
+
+        AuthManager::AuthManager(SocketHandler handler){
               socket_handler = handler;
         };
 
         //Result from 'send_code'
         //store server auth token locally
-        std::string send_code(std::string){
+        std::string AuthManager::send_code(std::string code_input){
             std::string result;
             int send_message_result = send();
             if(send_message_result == SOCKET_ERROR){
@@ -137,8 +125,6 @@ class AuthManager{
         };
 
 
-};
-
 class InterfaceUpdater{
 
 
@@ -146,13 +132,12 @@ class InterfaceUpdater{
 
 };
 
-class ResponseManger{
 
 
- public:
-    InterfaceUpdater interface_updater;
 
-    void check_person_creation(std::string response,DataForUserCreation data){
+
+
+    void ResponseManger::check_person_creation(std::string response,PersonData data){
         if(response == "ACCEPTED_CREATION"){
             //add to persosn to list
         }
@@ -160,7 +145,7 @@ class ResponseManger{
             //issue
         }
     }
-    void check_person_deletion (std::string response , std::string first,std::string last){
+    void ResponseManger::check_person_deletion (std::string response , std::string first,std::string last){
         if(response == "DELETION_ACCEPTED"){
             //remove person from list
         }
@@ -168,7 +153,7 @@ class ResponseManger{
             //issue
         }
     }
-    void check_contact_creation(std::string response , std::string email){
+    void ResponseManger::check_contact_creation(std::string response , std::string email){
         if(response == "EMAIL_RECIPIENT_ADDED"){
             //add contact to list
         }
@@ -176,7 +161,7 @@ class ResponseManger{
              //issue
         }
     }
-    void check_contact_deletion (std::string response , std::string email){
+    void ResponseManger::check_contact_deletion (std::string response , std::string email){
 
         if(response == "EMAIL_RECIPIENT_REMOVED"){
 
@@ -186,61 +171,56 @@ class ResponseManger{
 
         }
     }
-    void check_entry_creation(std::string response , std::string first , std::string last){
+    void ResponseManger::check_entry_creation(std::string response , std::string first , std::string last){
 
     }
 
 
 
-};
-class RequestManager{
 
-public:
-    SocketHandler socket_handler;
-    AuthManager auth_manager = AuthManager(socket_handler);
-    ResponseManger response_manager;
 
-    void create_person(){
+
+    void RequestManager::create_person(){
 
     }
-    void create_entry(){
+    void RequestManager::create_entry(){
 
     }
-    void create_contact(){
+    void RequestManager::create_contact(){
 
     }
-    void delete_person(){
+    void RequestManager::delete_person(){
 
     }
-    void delete_contact(){
+    void RequestManager::delete_contact(){
 
     }
-    void delete_entry(){
+    void RequestManager::delete_entry(){
 
     }
-    void breach(){
+    void RequestManager::breach(){
 
     }
-    void download_profile(){
+    void RequestManager::download_profile(){
 
     }
-    void edit_person(){
+    void RequestManager::edit_person(){
 
     }
 
-    void send_data_size(){
+    void RequestManager::send_data_size(){
         //send stringified int of bytes
     }
 
-    bool is_authed(std::string token){
+    bool RequestManager::is_authed(std::string token){
 
         //send token
         //check for 'success'
 
     }
-    void one_time_RUD_request(){//read update delete
+    void RequestManager::one_time_RUD_request(){//read update delete
 
 
     }
 
-  };
+

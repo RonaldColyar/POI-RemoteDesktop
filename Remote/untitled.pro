@@ -18,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     confirmbreachpopup.h \
+    main_functionality.h \
     mainwindow.h \
     newentrypopup.h \
     newpersonpopup.h
