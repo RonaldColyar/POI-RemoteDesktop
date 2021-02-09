@@ -15,7 +15,8 @@ SOURCES += \
     main_functionality.cpp \
     mainwindow.cpp \
     newentrypopup.cpp \
-    newpersonpopup.cpp
+    newpersonpopup.cpp \
+    sendemailpopup.cpp
 
 HEADERS += \
     confirmbreachpopup.h \
@@ -23,14 +24,16 @@ HEADERS += \
     main_functionality.h \
     mainwindow.h \
     newentrypopup.h \
-    newpersonpopup.h
+    newpersonpopup.h \
+    sendemailpopup.h
 
 FORMS += \
     confirmbreachpopup.ui \
     entrydetailsview.ui \
     mainwindow.ui \
     newentrypopup.ui \
-    newpersonpopup.ui
+    newpersonpopup.ui \
+    sendemailpopup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

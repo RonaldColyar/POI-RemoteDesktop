@@ -3,6 +3,8 @@
 #include "newpersonpopup.h"
 #include "newentrypopup.h"
 #include "confirmbreachpopup.h"
+#include "main_functionality.h"
+#include <vector>
 #include <QMainWindow>
 
 
@@ -16,7 +18,8 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-
+    //all of the profile data
+    std::vector<PersonData> persons;
     ~MainWindow();
 
 private slots:
@@ -25,6 +28,8 @@ private slots:
     void on_NewEntry_clicked();
 
     void on_NewPerson_clicked();
+
+    void on_SendProfileButton_clicked();
 
 private:
     Ui::MainWindow *ui;
