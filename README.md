@@ -1,6 +1,6 @@
 # Persons Of Interest
 
-Persons Of Interest(POI for short) is a Multi-platform system that is built to help gather intelligence on suspicious individuals by means of profile building.
+Persons Of Interest(P.O.I for short) is a Multi-platform system that is built to help gather intelligence on suspicious individuals by means of profile building.
 
 # Versions
 
