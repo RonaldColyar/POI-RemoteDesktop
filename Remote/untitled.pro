@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     confirmbreachpopup.cpp \
+    entrydetailsview.cpp \
     main.cpp \
     main_functionality.cpp \
     mainwindow.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     confirmbreachpopup.h \
+    entrydetailsview.h \
     main_functionality.h \
     mainwindow.h \
     newentrypopup.h \
@@ -25,6 +27,7 @@ HEADERS += \
 
 FORMS += \
     confirmbreachpopup.ui \
+    entrydetailsview.ui \
     mainwindow.ui \
     newentrypopup.ui \
     newpersonpopup.ui
