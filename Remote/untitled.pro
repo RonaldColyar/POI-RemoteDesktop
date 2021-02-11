@@ -34,7 +34,7 @@ FORMS += \
     newentrypopup.ui \
     newpersonpopup.ui \
     sendemailpopup.ui
-
+LIBS += ws2_32.lib
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

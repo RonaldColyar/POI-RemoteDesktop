@@ -21,8 +21,7 @@ SendEmailPopup send_profile_popup(request_manager);
 
 /*
  MainWindow Holds Data on the persons/profiles
-   and maps button clicks to the correct
-   dialog.
+   and maps button clicks to the correct dialog.
 */
 
 MainWindow::MainWindow(QWidget *parent)

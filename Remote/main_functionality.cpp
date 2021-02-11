@@ -10,8 +10,33 @@
 
 
 
+std::string received_data(SOCKET sock){
+   //recv size of data first
+   char buffer[1000];
+   int BytesSize = recv(sock,buffer,1000,0);
+   std::string stringified_size = std::string(buffer,0,BytesSize);
+   //recv actual data
+   char jsonBuffer[std::stoi(stringified_size)];
+   int json_data = recv(sock,jsonBuffer,std::stoi(stringified_size),0);
+   std::string stringifed_json = std::string(jsonBuffer,0,json_data);
+  //final result
+   return stringifed_json;
 
 
+
+
+}
+Json::Value converted_json_data(std::string data){
+        Json::Value json;
+        Json::CharReaderBuilder builder;
+        Json::CharReader* reader = builder.newCharReader();
+        std::string errors;
+        reader ->parse(data.c_str(),data.c_str()+data.size(),&json,&errors);
+        delete reader;
+        return json;
+
+
+}
 
 
    PersonData::PersonData(std::string first_param ,
@@ -34,7 +59,6 @@
 
 
 
-
    }
 
 
@@ -53,10 +77,22 @@
 
         void SocketHandler::configure_hint(){
             hint.sin_family = AF_INET;
-            hint.sin_port = port;
+            hint.sin_port = htons(port);
+            hint.sin_addr.s_addr = inet_addr("127.0.0.1");
+
         }
 
+        bool SocketHandler::send_message(std::string message){
+            //size +1 due to the nature of c strings
+            int send_message_result = send(sock,message.c_str(),message.size()+1,0);
+            if(send_message_result == SOCKET_ERROR){
+                return false;
+            }
+            else{
+                return true;
+            }
 
+        }
         bool SocketHandler::connect_to_server(){
            SocketHandler::configure_hint();
            if(SocketHandler::sock == INVALID_SOCKET || SocketHandler::startup_result !=0 ){
@@ -92,45 +128,20 @@
 
         };
 
-
-
-
-
-
-
         AuthManager::AuthManager(SocketHandler handler){
               socket_handler = handler;
         };
 
-        //Result from 'send_code'
-        //store server auth token locally
-        std::string AuthManager::send_code(std::string code_input){
-            std::string result;
-            int send_message_result = send();
-            if(send_message_result == SOCKET_ERROR){
-                result = "error";
-            }
-            else{
-                int data_size = recv();
-                int actual_data  = recv();
-                if (actual_data > 0 ){
-                    result = std::string(); //convert actual data to
-                }
+        std::string AuthManager::check_code_response(std::string code_input){
 
 
 
-            }
-            return result;
+
+
 
         };
 
 
-class InterfaceUpdater{
-
-
-
-
-};
 
 
 
@@ -179,7 +190,13 @@ class InterfaceUpdater{
 
 
 
+    RequestManager::RequestManager(){
+      writer = writer_builder.newStreamWriter();
 
+    }
+    RequestManager::~RequestManager(){
+        delete writer;
+    }
     void RequestManager::create_person(){
 
     }
@@ -206,10 +223,6 @@ class InterfaceUpdater{
     }
     void RequestManager::edit_person(){
 
-    }
-
-    void RequestManager::send_data_size(){
-        //send stringified int of bytes
     }
 
     bool RequestManager::is_authed(std::string token){
