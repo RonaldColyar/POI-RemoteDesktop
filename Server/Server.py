@@ -383,7 +383,7 @@ class UserThread:
             new_dict = json.loads(data)
             if new_dict["type"] == "DISCONNECT_":
                 self.session_manager.remove_session(addr,token)
-            else:
+            elif new_dict["token"] == token:
                 self.router.route_type(new_dict,client)
                 
 
