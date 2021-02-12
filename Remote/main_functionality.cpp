@@ -197,22 +197,97 @@ Json::Value converted_json_data(std::string data){
     RequestManager::~RequestManager(){
         delete writer;
     }
-    void RequestManager::create_person(){
+    void RequestManager::create_person(PersonData person,std::string token){
+        Json::Value root;
+        append_person_keys(root);
+        add_person_values(person,root,token,"PROFILE_CREATION");
 
     }
-    void RequestManager::create_entry(){
+    void RequestManager::append_person_keys(Json::Value& root){
+        append_person_modification_keys(root);
+        root.append("location");
+        root.append("race");
+        root.append("entries");
 
     }
-    void RequestManager::create_contact(){
+    //used for create/update
+    void RequestManager::add_person_values(PersonData person,
+                                           Json::Value& root,
+                                           std::string token,
+                                           std::string type){
+        root["type"]  = type;
+        root["token"] = token;
+        root["first"] = person.first;
+        root["last"] = person.last;
+        root["location"] = person.location;
+        root["race"] = person.race;
+        //implement entries conversion!
 
     }
-    void RequestManager::delete_person(){
+    void RequestManager::create_entry(PersonData person,
+                                      std::string token,
+                                      std::string desc,
+                                      std::string label
+                                      ){
+        Json::Value root;
+        root.append("data");
+        root.append("label");
+        append_person_modification_keys(root);
+        root["first"] = person.first;
+        root["last"] = person.last;
+        root["type"] = "ENTRY_REQUEST";
+        root["data"] = desc;
+        root["label"] = label;
+        root["token"] = token;
+    }
+
+    void RequestManager::create_contact(std::string email, std::string email_name,std::string token){
+        Json::Value root;
+        root.append("type");
+        root.append("token");
+        root.append("email");
+        root.append("email_name");
+        root["type"] = "EMAIL_RECIPIENT_ADD";
+        root["token"] = token;
+        root["email"] = email;
+        root["email_name"] = email_name;
+
 
     }
-    void RequestManager::delete_contact(){
+    void::RequestManager::append_person_modification_keys(Json::Value &root){
+        root.append("type");
+        root.append("first");
+        root.append("last");
+        root.append("token");
+    }
+    void RequestManager::delete_person(PersonData person,std::string token){
+        Json::Value root;
+        append_person_modification_keys(root);
+        root["type"] = "REQUEST_DELETION";
+        root["first"] = person.first;
+        root["last"] = person.last;
+        root["token"] = token;
+
 
     }
-    void RequestManager::delete_entry(){
+    void RequestManager::delete_contact(std::string token, std::string nickname){
+        Json::Value root;
+        root.append("token");
+        root.append("type");
+        root.append("nickname");
+        root["token"] = token;
+        root["type"] = "REMOVE_EMAIL_RECIPIENT";
+        root["nickname"] = nickname;
+
+    }
+    void RequestManager::delete_entry(std::string token, std::string label){
+        Json::Value root;
+        root.append("token");
+        root.append("type");
+        root.append("label");
+        root["token"] = token;
+        root["type"] = "DELETE_ENTRY";
+        root["label"] = label;
 
     }
     void RequestManager::breach(){
