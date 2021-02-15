@@ -87,6 +87,8 @@ class ResponseManger{
     void check_contact_creation(std::string response , std::string email);
     void check_contact_deletion (std::string response , std::string email);
     void check_entry_creation(std::string response , std::string first , std::string last);
+    void check_entry_deletion(std::string response,std::string label);
+    void check_breach_status (std::string response);
 
 
 };
@@ -112,6 +114,7 @@ public:
     void breach(std::string token , std::string code);
     std::string server_response(std::string json);
     void download_profile();
+
     void edit_person(PersonData person,std::string token);
     void send_data_size();
     void one_time_RUD_request();

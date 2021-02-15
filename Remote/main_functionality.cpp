@@ -184,6 +184,11 @@ Json::Value converted_json_data(std::string data){
     }
     void ResponseManger::check_entry_creation(std::string response , std::string first , std::string last){
 
+
+    }
+    void ResponseManger::check_entry_deletion(std::string response,std::string label){
+
+
     }
 
 
@@ -253,6 +258,8 @@ Json::Value converted_json_data(std::string data){
         root["data"] = desc;
         root["label"] = label;
         root["token"] = token;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_entry_creation(response,person.first,person.last);
     }
 
     void RequestManager::create_contact(std::string email, std::string email_name,std::string token){
@@ -265,6 +272,10 @@ Json::Value converted_json_data(std::string data){
         root["token"] = token;
         root["email"] = email;
         root["email_name"] = email_name;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_contact_creation(response,email);
+
+
 
 
     }
@@ -281,6 +292,8 @@ Json::Value converted_json_data(std::string data){
         root["first"] = person.first;
         root["last"] = person.last;
         root["token"] = token;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_person_deletion(response,person.first,person.last);
 
 
     }
@@ -292,6 +305,8 @@ Json::Value converted_json_data(std::string data){
         root["token"] = token;
         root["type"] = "REMOVE_EMAIL_RECIPIENT";
         root["nickname"] = nickname;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_contact_deletion(response,nickname);
 
     }
     void RequestManager::delete_entry(std::string token, std::string label){
@@ -302,6 +317,9 @@ Json::Value converted_json_data(std::string data){
         root["token"] = token;
         root["type"] = "DELETE_ENTRY";
         root["label"] = label;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_entry_deletion(response,label);
+
 
     }
     void RequestManager::breach(std::string token , std::string code){
@@ -311,6 +329,8 @@ Json::Value converted_json_data(std::string data){
         root.append("code");
         root["token"] = token;
         root["code"] = code;
+        std::string response = server_response(Json::writeString(writer_builder,root));
+        response_manager.check_breach_status(response);
 
 
     }
