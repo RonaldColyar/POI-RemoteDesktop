@@ -1,7 +1,7 @@
 #include "sendemailpopup.h"
 #include "ui_sendemailpopup.h"
 
-SendEmailPopup::SendEmailPopup(QWidget *parent) :
+SendEmailPopup::SendEmailPopup(RequestManager RM,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SendEmailPopup)
 {

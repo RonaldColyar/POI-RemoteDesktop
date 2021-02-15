@@ -183,11 +183,23 @@ Json::Value converted_json_data(std::string data){
         }
     }
     void ResponseManger::check_entry_creation(std::string response , std::string first , std::string last){
+        if(response == "ENTRY_ACCEPTED"){
+
+        }
+        else{
+
+        }
+
 
 
     }
     void ResponseManger::check_entry_deletion(std::string response,std::string label){
+    if (response == "ENTRY_DELETED"){
 
+    }
+    else{
+
+    }
 
     }
 
