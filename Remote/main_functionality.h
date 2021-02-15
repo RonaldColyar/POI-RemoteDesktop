@@ -98,10 +98,8 @@ public:
     SocketHandler socket_handler;
     AuthManager auth_manager = AuthManager(socket_handler);
     ResponseManger response_manager;
-
     Json::StreamWriterBuilder writer_builder;
     Json::StreamWriter * writer;
-
     void create_person(PersonData person,std::string token);
     void append_person_keys(Json::Value &root);
     void add_person_values(PersonData person,Json::Value& root,std::string token,std::string type);
@@ -111,11 +109,11 @@ public:
     void delete_person(PersonData person,std::string token);
     void delete_contact(std::string token, std::string nickname);
     void delete_entry(std::string token, std::string label);
-    void breach();
+    void breach(std::string token , std::string code);
+    std::string server_response(std::string json);
     void download_profile();
-    void edit_person();
+    void edit_person(PersonData person,std::string token);
     void send_data_size();
-    bool is_authed(std::string token);
     void one_time_RUD_request();
 
   };

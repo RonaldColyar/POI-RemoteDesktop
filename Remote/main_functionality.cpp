@@ -10,7 +10,7 @@
 
 
 
-std::string received_data(SOCKET sock){
+std::string received_data(SOCKET sock){//for Reading person data
    //recv size of data first
    char buffer[1000];
    int BytesSize = recv(sock,buffer,1000,0);
@@ -24,6 +24,13 @@ std::string received_data(SOCKET sock){
 
 
 
+
+}
+
+std::string received_response(SOCKET sock){//for simple status responses
+    char buffer [1000];
+    int response = recv(sock,buffer,1000,0);
+    return std::string(buffer,0,response);
 
 }
 Json::Value converted_json_data(std::string data){
@@ -54,13 +61,6 @@ Json::Value converted_json_data(std::string data){
      race = race_param;
      entries = entry_data;
    }
-   //for person modification/creation
-   std::string PersonData::json_obj (){
-
-
-
-   }
-
 
 
 
@@ -194,6 +194,20 @@ Json::Value converted_json_data(std::string data){
       writer = writer_builder.newStreamWriter();
 
     }
+    std::string RequestManager::server_response(std::string json ){
+        int size = json.length();
+        //sending results
+        bool size_result = socket_handler.send_message(std::to_string(size));
+        bool data_result = socket_handler.send_message(json);
+        if(size_result == false || data_result == false){
+            return "SENDING_ERROR";
+        }
+        else{
+            return received_response(socket_handler.sock);
+        }
+
+    }
+
     RequestManager::~RequestManager(){
         delete writer;
     }
@@ -290,22 +304,26 @@ Json::Value converted_json_data(std::string data){
         root["label"] = label;
 
     }
-    void RequestManager::breach(){
+    void RequestManager::breach(std::string token , std::string code){
+        Json::Value root;
+        root.append("token");
+        root.append("type");
+        root.append("code");
+        root["token"] = token;
+        root["code"] = code;
+
 
     }
     void RequestManager::download_profile(){
 
     }
-    void RequestManager::edit_person(){
+    void RequestManager::edit_person(PersonData person,std::string token){
+        Json::Value root;
+        append_person_keys(root);
+        add_person_values(person,root,token,"PROFILE_CREATION");
 
     }
 
-    bool RequestManager::is_authed(std::string token){
-
-        //send token
-        //check for 'success'
-
-    }
     void RequestManager::one_time_RUD_request(){//read update delete
 
 
